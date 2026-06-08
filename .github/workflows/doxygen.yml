@@ -1,0 +1,27 @@
+name: Gerar Documentacao Doxygen Java
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Pegar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: 2. Instalar o Doxygen no servidor do GitHub
+        run: sudo apt-get update && sudo apt-get install -y doxygen
+
+      - name: 3. Ler o Doxyfile e gerar o site HTML
+        run: doxygen Doxyfile
+
+      - name: 4. Publicar o site no GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./html
