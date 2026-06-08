@@ -1,7 +1,7 @@
 # PC Builder Java 💻⚙️
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Em_Desenvolvimento-blue?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Concluido-brightgreen?style=for-the-badge)
 
 Um sistema simulador de montagem de computadores focado em validar a compatibilidade de hardware. O projeto aplica fortemente os pilares da Programação Orientada a Objetos (POO), incluindo Herança, Polimorfismo e Tratamento de Exceções Customizadas.
 
