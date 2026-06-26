@@ -1,6 +1,12 @@
 var searchData=
 [
-  ['incompatibilidadeexception_0',['IncompatibilidadeException',['../classpcbuilder_1_1IncompatibilidadeException.html',1,'pcbuilder']]],
-  ['instanciarvariaveis_1',['instanciarVariaveis',['../classpcbuilder_1_1LeitorCsvBase.html#a9c190076b406093d5b87124e8ffecdbe',1,'pcbuilder::LeitorCsvBase']]],
-  ['interfaceusuario_2',['InterfaceUsuario',['../classpcbuilder_1_1InterfaceUsuario.html',1,'pcbuilder']]]
+  ['incompatibilidadeexception_0',['incompatibilidadeexception',['../classpcbuilder_1_1IncompatibilidadeException.html',1,'pcbuilder.IncompatibilidadeException'],['../classpcbuilder_1_1IncompatibilidadeException.html#a177fa7dc90b246e29a3f0a2f3ba6f58d',1,'pcbuilder.IncompatibilidadeException.IncompatibilidadeException()']]],
+  ['incompatibilidadeexception_2ejava_1',['IncompatibilidadeException.java',['../IncompatibilidadeException_8java.html',1,'']]],
+  ['inicializarcatalogo_2',['inicializarCatalogo',['../classpcbuilder_1_1LeitorCsvBase.html#ac79b54a1ae346428e8a278d6e6917fb1',1,'pcbuilder::LeitorCsvBase']]],
+  ['instanciarvariaveis_3',['instanciarvariaveis',['../classpcbuilder_1_1LeitorCsvBase.html#a9c190076b406093d5b87124e8ffecdbe',1,'pcbuilder.LeitorCsvBase.instanciarVariaveis()'],['../classpcbuilder_1_1CatalogoArmazenamento.html#a1db99cd473a104a04e8d9aa2d25b6305',1,'pcbuilder.CatalogoArmazenamento.instanciarVariaveis()'],['../classpcbuilder_1_1CatalogoFonte.html#a4768b2fe0152f127073d50e9cb8a62a5',1,'pcbuilder.CatalogoFonte.instanciarVariaveis()'],['../classpcbuilder_1_1CatalogoMemoria.html#aa1d4f79fd2a7819e37f6529d31ffb589',1,'pcbuilder.CatalogoMemoria.instanciarVariaveis()'],['../classpcbuilder_1_1CatalogoPlacaDeVideo.html#a57c2c85a9939ccc970e0fe36afbf5d11',1,'pcbuilder.CatalogoPlacaDeVideo.instanciarVariaveis()'],['../classpcbuilder_1_1CatalogoPlacaMae.html#af3af41779eeb8a6f3bc09a185be994eb',1,'pcbuilder.CatalogoPlacaMae.instanciarVariaveis()'],['../classpcbuilder_1_1CatalogoProcessador.html#a98fab8e3722a005b5968d0ea375b707e',1,'pcbuilder.CatalogoProcessador.instanciarVariaveis()']]],
+  ['interfaceusuario_4',['InterfaceUsuario',['../classpcbuilder_1_1InterfaceUsuario.html',1,'pcbuilder']]],
+  ['interfaceusuario_2ejava_5',['InterfaceUsuario.java',['../InterfaceUsuario_8java.html',1,'']]],
+  ['isfullmodular_6',['isFullModular',['../classpcbuilder_1_1Fonte.html#a43c04472f4a7ddf49881c3d8bc85373d',1,'pcbuilder::Fonte']]],
+  ['ispossuivideointegrado_7',['isPossuiVideoIntegrado',['../classpcbuilder_1_1Processador.html#aa92916c0a08f6e0204cca7338d715829',1,'pcbuilder::Processador']]],
+  ['issuporteecc_8',['issuporteecc',['../classpcbuilder_1_1MemoriaRam.html#adf2616b3a2f29c0ff2554a2a9750eb0f',1,'pcbuilder.MemoriaRam.isSuporteECC()'],['../classpcbuilder_1_1Processador.html#aabb518f98138f02680d7eaf7ba1193ce',1,'pcbuilder.Processador.isSuporteECC()']]]
 ];

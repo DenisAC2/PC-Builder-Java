@@ -8,5 +8,5 @@ digraph "pcbuilder.PlacaMae"
   Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
   Node2 [id="Node000002",label="pcbuilder.Componente",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$classpcbuilder_1_1Componente.html",tooltip="Classe abstrata base para todos os hardwares do sistema. Centraliza os atributos comuns como marca,..."];
   Node3 -> Node2 [id="edge2_Node000002_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node3 [id="Node000003",label="Serializable",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node3 [id="Node000003",label="Serializable",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
 }
