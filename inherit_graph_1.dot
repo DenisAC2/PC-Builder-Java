@@ -5,15 +5,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
   node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
   rankdir="LR";
-  Node0 [id="Node000000",label="pcbuilder.Componente",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classpcbuilder_1_1Componente.html",tooltip="Classe abstrata base para todos os hardwares do sistema. Centraliza os atributos comuns como marca,..."];
-  Node0 -> Node1 [id="edge3_Node000000_Node000001",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node1 [id="Node000001",label="pcbuilder.Armazenamento",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classpcbuilder_1_1Armazenamento.html",tooltip="Representa as unidades de armazenamento (SSD, NVMe, HDD)."];
-  Node0 -> Node2 [id="edge4_Node000000_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node2 [id="Node000002",label="pcbuilder.Fonte",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classpcbuilder_1_1Fonte.html",tooltip="Representa a Fonte de Alimentação (PSU). Fundamental para validar se a potência fornecida é maior que..."];
-  Node0 -> Node3 [id="edge5_Node000000_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node3 [id="Node000003",label="pcbuilder.MemoriaRam",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classpcbuilder_1_1MemoriaRam.html",tooltip="Representa um módulo de Memória RAM."];
-  Node0 -> Node4 [id="edge6_Node000000_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node4 [id="Node000004",label="pcbuilder.PlacaMae",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classpcbuilder_1_1PlacaMae.html",tooltip="Representa a placa-mãe do computador. Guarda as regras estruturais como Socket e Tipo de RAM que dita..."];
-  Node0 -> Node5 [id="edge7_Node000000_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node5 [id="Node000005",label="pcbuilder.Processador",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classpcbuilder_1_1Processador.html",tooltip="Representa o processador (CPU) do sistema. Extende a classe base Componente e adiciona característica..."];
+  Node0 [id="Node000000",label="pcbuilder.ExportadorArquivo",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classpcbuilder_1_1ExportadorArquivo.html",tooltip="Classe utilitária responsável pela exportação de dados e manipulação de arquivos (I/O)...."];
 }

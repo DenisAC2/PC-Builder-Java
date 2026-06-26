@@ -86,7 +86,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a1c4edde50434e7adc3cb00172a3d2a88" id="r_a1c4edde50434e7adc3cb00172a3d2a88"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpcbuilder_1_1PCBuilder.html#a1c4edde50434e7adc3cb00172a3d2a88">main</a> (String[] args)</td></tr>
-<tr class="memdesc:a1c4edde50434e7adc3cb00172a3d2a88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Método principal de execução. Inicializa a interface inicial (Menu Principal), permitindo ao usuário criar uma nova máquina do zero ou selecionar uma máquina já existente para modificação.  <br /></td></tr>
+<tr class="memdesc:a1c4edde50434e7adc3cb00172a3d2a88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Método principal de execução. Inicializa a interface carregando dados do disco e gerencia o loop do menu principal. Registra um Shutdown Hook para garantir a persistência segura no encerramento.  <br /></td></tr>
 <tr class="separator:a1c4edde50434e7adc3cb00172a3d2a88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -117,7 +117,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Método principal de execução. Inicializa a interface inicial (Menu Principal), permitindo ao usuário criar uma nova máquina do zero ou selecionar uma máquina já existente para modificação. </p>
+<p>Método principal de execução. Inicializa a interface carregando dados do disco e gerencia o loop do menu principal. Registra um Shutdown Hook para garantir a persistência segura no encerramento. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">args</td><td>Argumentos de linha de comando padrão do Java. </td></tr>

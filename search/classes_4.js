@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['incompatibilidadeexception_0',['IncompatibilidadeException',['../classpcbuilder_1_1IncompatibilidadeException.html',1,'pcbuilder']]],
-  ['interfaceusuario_1',['InterfaceUsuario',['../classpcbuilder_1_1InterfaceUsuario.html',1,'pcbuilder']]]
+  ['gensetup_0',['GenSetup',['../classpcbuilder_1_1GenSetup.html',1,'pcbuilder']]],
+  ['gerenciadordados_1',['GerenciadorDados',['../classpcbuilder_1_1GerenciadorDados.html',1,'pcbuilder']]]
 ];

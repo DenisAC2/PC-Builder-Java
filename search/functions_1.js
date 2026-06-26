@@ -1,5 +1,11 @@
 var searchData=
 [
-  ['exibirdetalhes_0',['exibirdetalhes',['../classpcbuilder_1_1Armazenamento.html#ac91f8701d335bd4a1a32c7794cc84467',1,'pcbuilder.Armazenamento.exibirDetalhes()'],['../classpcbuilder_1_1Fonte.html#a7268112f8fdd8d6edd17f4c2fdad3d7e',1,'pcbuilder.Fonte.exibirDetalhes()'],['../classpcbuilder_1_1MemoriaRam.html#a2f7af20c9a4a87387e074df48c962f4d',1,'pcbuilder.MemoriaRam.exibirDetalhes()'],['../classpcbuilder_1_1PlacaMae.html#ac80170197b1a3e2b748e217e4c46ddfa',1,'pcbuilder.PlacaMae.exibirDetalhes()'],['../classpcbuilder_1_1Processador.html#a0769087a4b2caf76d153b7ad762a07e6',1,'pcbuilder.Processador.exibirDetalhes()']]],
-  ['exibirresumo_1',['exibirResumo',['../classpcbuilder_1_1Setup.html#a416e89541d20fcb52d311f02827eb7e6',1,'pcbuilder::Setup']]]
+  ['calcularconsumototal_0',['calcularConsumoTotal',['../classpcbuilder_1_1Setup.html#a91e302bce735d357c7c2b5c2279b7f17',1,'pcbuilder::Setup']]],
+  ['calcularprecototal_1',['calcularPrecoTotal',['../classpcbuilder_1_1Setup.html#a509a205c1530e9cfe32812765940ccba',1,'pcbuilder::Setup']]],
+  ['capturararmazenamento_2',['capturarArmazenamento',['../classpcbuilder_1_1InterfaceUsuario.html#af471ce27168c3106046ce92e42731768',1,'pcbuilder::InterfaceUsuario']]],
+  ['capturarfonte_3',['capturarFonte',['../classpcbuilder_1_1InterfaceUsuario.html#a52434f4ee9544b235688cd44e6cdc7e9',1,'pcbuilder::InterfaceUsuario']]],
+  ['capturarmemoria_4',['capturarMemoria',['../classpcbuilder_1_1InterfaceUsuario.html#a33d4f12f29b872a02dfa8e3b960e83e9',1,'pcbuilder::InterfaceUsuario']]],
+  ['capturarplacamae_5',['capturarPlacaMae',['../classpcbuilder_1_1InterfaceUsuario.html#af7c4499dba74a27c101df2c503b41eab',1,'pcbuilder::InterfaceUsuario']]],
+  ['capturarprocessador_6',['capturarProcessador',['../classpcbuilder_1_1InterfaceUsuario.html#aa3496d6d911b2c41f1c6c070ca683328',1,'pcbuilder::InterfaceUsuario']]],
+  ['carregarsetups_7',['carregarSetups',['../classpcbuilder_1_1GerenciadorDados.html#acf8767bcc0651b0fd5fd84a048a04d2b',1,'pcbuilder::GerenciadorDados']]]
 ];

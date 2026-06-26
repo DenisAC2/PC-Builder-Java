@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🚀_20funcionalidades_0',['🚀 Funcionalidades',['../index.html#autotoc_md1',1,'']]]
+  ['💻⚙️_0',['PC Builder Java 💻⚙️',['../index.html',1,'']]]
 ];

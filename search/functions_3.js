@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['processador_0',['Processador',['../classpcbuilder_1_1Processador.html#a4fae85e6bf2c44d9abae7419f51bcce7',1,'pcbuilder::Processador']]]
+  ['gerararquivopadrao_0',['gerarArquivoPadrao',['../classpcbuilder_1_1LeitorCsvBase.html#a57673ba589ccb9256b757340421ef79d',1,'pcbuilder::LeitorCsvBase']]]
 ];

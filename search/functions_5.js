@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['verificarcompatibilidade_0',['verificarCompatibilidade',['../classpcbuilder_1_1Setup.html#a9549d113b4d535adb7b8c2d8be28a93c',1,'pcbuilder::Setup']]]
+  ['main_0',['main',['../classpcbuilder_1_1PCBuilder.html#a1c4edde50434e7adc3cb00172a3d2a88',1,'pcbuilder::PCBuilder']]]
 ];

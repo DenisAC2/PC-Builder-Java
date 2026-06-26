@@ -5,5 +5,7 @@ digraph "Graphical Class Hierarchy"
   edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
   node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
   rankdir="LR";
-  Node0 [id="Node000000",label="pcbuilder.Setup",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classpcbuilder_1_1Setup.html",tooltip="Classe agregadora que representa um computador montado. Contém a lógica de negócios principal do simu..."];
+  Node0 [id="Node000000",label="pcbuilder.LeitorCsvBase\l\< Armazenamento \>",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classpcbuilder_1_1LeitorCsvBase.html",tooltip=" "];
+  Node0 -> Node1 [id="edge3_Node000000_Node000001",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 [id="Node000001",label="pcbuilder.CatalogoArmazenamento",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classpcbuilder_1_1CatalogoArmazenamento.html",tooltip="DAO específico de Armazenamento (SSD/NVMe/HDD). Lê o arquivo CSV e converte os dados em objetos Armaz..."];
 }
