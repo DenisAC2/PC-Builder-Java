@@ -72,28 +72,35 @@ $(function() {
   <div class="headertitle"><div class="title">PC Builder Java 💻⚙️ </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_README"></a> <img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&amp;logo=openjdk&amp;logoColor=white" alt="Java" style="pointer-events: none;" class="inline"/> <img src="https://img.shields.io/badge/Status-Concluido-brightgreen?style=for-the-badge" alt="Status" class="inline"/></p>
-<p>Um sistema simulador de montagem de computadores focado em validar a compatibilidade de hardware. O projeto aplica fortemente os pilares da Programação Orientada a Objetos (POO), incluindo Herança, Polimorfismo e Tratamento de Exceções Customizadas.</p>
+<div class="textblock"><p><a class="anchor" id="md_README"></a> <img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&amp;logo=openjdk&amp;logoColor=white" alt="Java" style="pointer-events: none;" class="inline"/> <img src="https://img.shields.io/badge/Status-Concluido-brightgreen?style=for-the-badge" alt="Status" class="inline"/> <img src="https://img.shields.io/badge/Docs-Doxygen-blue" alt="Documentação" class="inline"/></p>
+<p>Um sistema simulador de montagem de computadores focado em validar a compatibilidade de hardware. O projeto aplica fortemente os pilares da Engenharia de Software e Programação Orientada a Objetos (POO), incluindo Padrões de Projeto, Herança, Polimorfismo e Tratamento de Exceções Customizadas.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 🚀 Funcionalidades</h1>
 <ul>
-<li><b>Gerenciamento de Setups:</b> Criação e edição de múltiplos computadores simultaneamente.</li>
-<li><b>Catálogo de Componentes:</b> Suporte para Processadores, Placas-Mãe, Memória RAM, Armazenamento e Fontes.</li>
-<li><b>Validação de Compatibilidade:</b> O sistema impede gargalos e montagens irreais (ex: tentar colocar RAM DDR4 em uma placa-mãe DDR5, ou processadores em sockets incompatíveis).</li>
-<li><b>Cálculo de Consumo:</b> Validação automática se a Fonte de Alimentação possui potência suficiente para o setup.</li>
+<li><b>Gerenciamento de Setups:</b> Criação, edição e exclusão de múltiplos computadores simultaneamente.</li>
+<li><b>Catálogo Dinâmico (CSV):</b> O sistema consome dados de arquivos <code>.csv</code> para popular os catálogos de Processadores, Placas-Mãe, Memória RAM, Armazenamento e Fontes.</li>
+<li><b>Validação de Compatibilidade Estrita:</b> Impede gargalos e montagens irreais (ex: tentar colocar RAM DDR4 em uma placa-mãe DDR5, limites físicos de slots, ou processadores em sockets incompatíveis).</li>
+<li><b>Cálculo de Consumo Elétrico:</b> Validação automática se a Fonte de Alimentação possui potência suficiente para o setup montado (TDP).</li>
+<li><b>Exportação de Relatórios:</b> Geração de arquivos <code>.txt</code> com o resumo e o status de compatibilidade da máquina.</li>
+<li><b>Persistência de Dados Segura:</b> Salvamento automático do estado da aplicação em arquivos binários (<code>.dat</code>), garantindo que os setups criados não sejam perdidos ao fechar o programa.</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md2"></a>
-🛠️ Arquitetura do Sistema</h1>
+🛠️ Arquitetura e Padrões de Projeto</h1>
 <ul>
-<li><b>Herança:</b> Classe abstrata <code>Componente</code> centralizando atributos comuns (marca, modelo, preço, consumo), estendida por peças específicas.</li>
-<li><b>Exceptions Customizadas:</b> Uso de <code>IncompatibilidadeException</code> para barrar montagens erradas e <code>CanceladoException</code> para controle de fluxo da interface.</li>
+<li><b>Herança e Polimorfismo:</b> Classe abstrata <code>Componente</code> centralizando atributos comuns, estendida por peças específicas. O método <code>exibirDetalhes()</code> opera de forma polimórfica.</li>
+<li><b>Template Method &amp; Generics:</b> A classe <code>LeitorCsvBase&lt;T&gt;</code> dita o esqueleto do algoritmo de leitura de arquivos (DAO), delegando a instanciação dos objetos específicos para as classes filhas.</li>
 <li><b>Factory Pattern (Simplificado):</b> A classe <code>GenSetup</code> atua como fábrica para instanciar os componentes.</li>
-<li><b>Interface Gráfica:</b> Interações guiadas através da biblioteca <code>javax.swing.JOptionPane</code>.</li>
+<li><b>Single Responsibility Principle (SRP):</b> Classes como <code>GerenciadorDados</code> (I/O Binário), <code>ExportadorArquivo</code> (I/O Texto) e <code>InterfaceUsuario</code> (View) isolam as responsabilidades de infraestrutura e interface das regras de negócio.</li>
+<li><b>Exceptions Customizadas:</b> Uso de <code>IncompatibilidadeException</code> para barrar montagens erradas e <code>CanceladoException</code> para controle de fluxo da interface gráfica (<code>JOptionPane</code>).</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md3"></a>
+📚 Documentação (Doxygen)</h1>
+<p>O projeto possui documentação automatizada gerada via <b>Doxygen</b>. O pipeline de CI/CD está configurado com GitHub Actions para compilar a documentação a cada <em>push</em> na branch <code>main</code> e publicá-la automaticamente no GitHub Pages.</p>
+<h1><a class="anchor" id="autotoc_md4"></a>
 ⚙️ Como executar</h1>
 <ol type="1">
 <li>Clone este repositório.</li>
+<li>Certifique-se de que os arquivos <code>catalogo_*.csv</code> estão no mesmo diretório de execução (eles serão gerados automaticamente na primeira execução caso não existam).</li>
 <li>Compile e execute o arquivo principal <code>PCBuilder.java</code> através da sua IDE de preferência ou via terminal. </li>
 </ol>
 </div></div><!-- PageDoc -->

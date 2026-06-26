@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['do_20sistema_0',['🛠️ Arquitetura do Sistema',['../index.html#autotoc_md2',1,'']]]
+  ['de_20projeto_0',['🛠️ Arquitetura e Padrões de Projeto',['../index.html#autotoc_md2',1,'']]],
+  ['documentação_20doxygen_1',['📚 Documentação (Doxygen)',['../index.html#autotoc_md3',1,'']]],
+  ['doxygen_2',['📚 Documentação (Doxygen)',['../index.html#autotoc_md3',1,'']]]
 ];

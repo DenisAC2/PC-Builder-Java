@@ -16,6 +16,6 @@ var searchData=
   ['catalogoplacadevideo_13',['CatalogoPlacaDeVideo',['../classpcbuilder_1_1CatalogoPlacaDeVideo.html',1,'pcbuilder']]],
   ['catalogoplacamae_14',['CatalogoPlacaMae',['../classpcbuilder_1_1CatalogoPlacaMae.html',1,'pcbuilder']]],
   ['catalogoprocessador_15',['CatalogoProcessador',['../classpcbuilder_1_1CatalogoProcessador.html',1,'pcbuilder']]],
-  ['como_20executar_16',['⚙️ Como executar',['../index.html#autotoc_md3',1,'']]],
+  ['como_20executar_16',['⚙️ Como executar',['../index.html#autotoc_md4',1,'']]],
   ['componente_17',['Componente',['../classpcbuilder_1_1Componente.html',1,'pcbuilder']]]
 ];
