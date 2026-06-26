@@ -1,4 +1,5 @@
 PROJECT_NAME           = "Simulador PC Builder"
+OUTPUT_LANGUAGE        = Portuguese
 
 INPUT                  = src README.md
 USE_MDFILE_AS_MAINPAGE = README.md
@@ -10,3 +11,8 @@ HTML_OUTPUT            = html
 GENERATE_LATEX         = NO
 
 OPTIMIZE_OUTPUT_JAVA   = YES
+
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+SHOW_DIRECTORIES       = YES
