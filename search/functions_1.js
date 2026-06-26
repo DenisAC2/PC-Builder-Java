@@ -5,7 +5,8 @@ var searchData=
   ['capturararmazenamento_2',['capturarArmazenamento',['../classpcbuilder_1_1InterfaceUsuario.html#af471ce27168c3106046ce92e42731768',1,'pcbuilder::InterfaceUsuario']]],
   ['capturarfonte_3',['capturarFonte',['../classpcbuilder_1_1InterfaceUsuario.html#a52434f4ee9544b235688cd44e6cdc7e9',1,'pcbuilder::InterfaceUsuario']]],
   ['capturarmemoria_4',['capturarMemoria',['../classpcbuilder_1_1InterfaceUsuario.html#a33d4f12f29b872a02dfa8e3b960e83e9',1,'pcbuilder::InterfaceUsuario']]],
-  ['capturarplacamae_5',['capturarPlacaMae',['../classpcbuilder_1_1InterfaceUsuario.html#af7c4499dba74a27c101df2c503b41eab',1,'pcbuilder::InterfaceUsuario']]],
-  ['capturarprocessador_6',['capturarProcessador',['../classpcbuilder_1_1InterfaceUsuario.html#aa3496d6d911b2c41f1c6c070ca683328',1,'pcbuilder::InterfaceUsuario']]],
-  ['carregarsetups_7',['carregarSetups',['../classpcbuilder_1_1GerenciadorDados.html#acf8767bcc0651b0fd5fd84a048a04d2b',1,'pcbuilder::GerenciadorDados']]]
+  ['capturarplacadevideo_5',['capturarPlacaDeVideo',['../classpcbuilder_1_1InterfaceUsuario.html#aa77a667e0d3eadaa5b8e35d970e7cff1',1,'pcbuilder::InterfaceUsuario']]],
+  ['capturarplacamae_6',['capturarPlacaMae',['../classpcbuilder_1_1InterfaceUsuario.html#af7c4499dba74a27c101df2c503b41eab',1,'pcbuilder::InterfaceUsuario']]],
+  ['capturarprocessador_7',['capturarProcessador',['../classpcbuilder_1_1InterfaceUsuario.html#aa3496d6d911b2c41f1c6c070ca683328',1,'pcbuilder::InterfaceUsuario']]],
+  ['carregarsetups_8',['carregarSetups',['../classpcbuilder_1_1GerenciadorDados.html#acf8767bcc0651b0fd5fd84a048a04d2b',1,'pcbuilder::GerenciadorDados']]]
 ];
