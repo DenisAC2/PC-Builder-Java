@@ -6,6 +6,8 @@ package pcbuilder;
  * @author Denis
  */
 public class Fonte extends Componente {
+    /** @brief ID de versão para garantir a estabilidade da serialização (arquivos .dat) */
+    private static final long serialVersionUID = 1L;
     private final int potenciaWatts;
     private final String certificado80Plus;
     private final boolean fullModular;

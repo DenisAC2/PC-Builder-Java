@@ -82,13 +82,39 @@ public class InterfaceUsuario {
     
     /**
      * @brief Abre o formulário guiado para criação ou edição de um Processador.
-     * @param atual O objeto Processador existente (usado para autopreencher os campos em caso de edição) ou null para nova criação.
-     * @return Uma nova instância de Processador configurada através do GenSetup.
+     * Tenta primeiramente buscar o modelo em um catálogo pré-escrito (Fast-path).
+     * Se encontrado, importa os dados e encerra o fluxo; caso contrário, solicita 
+     * a digitação manual. Protegido contra "Edit-Lock".
+     * @param atual O objeto Processador existente (usado para autopreencher) ou null.
+     * @return Uma nova instância de Processador configurada.
      * @throws CanceladoException Se o fluxo de criação for interrompido.
      */
     public static Processador capturarProcessador(Processador atual) throws CanceladoException {
-        String m = atual != null ? atual.getMarca() : "";
         String mod = atual != null ? atual.getModelo() : "";
+        String modelo = lerString("Digite o Modelo do Processador (ex: Ryzen 5 8600G):", mod);
+        
+        boolean isEditandoMesmoModelo = (atual != null && atual.getModelo().equalsIgnoreCase(modelo));
+        
+        if (!isEditandoMesmoModelo) {
+            CatalogoProcessador catalogo = new CatalogoProcessador();
+            Processador processadorCatalogo = catalogo.buscarPorModelo(modelo, 1);
+            
+            if (processadorCatalogo != null) {
+                JOptionPane.showMessageDialog(null, 
+                    "✅ Processador '" + processadorCatalogo.getModelo() + "' encontrado no catálogo!\n"
+                  + "Todos os dados arquiteturais e elétricos foram preenchidos automaticamente.", 
+                    "Catálogo Localizado", JOptionPane.INFORMATION_MESSAGE);
+                
+                return processadorCatalogo;
+            } else {
+                JOptionPane.showMessageDialog(null, 
+                    "Modelo não encontrado no banco de dados pré-escrito.\n"
+                  + "Por favor, insira as demais especificações da peça manualmente.", 
+                    "Cadastro Manual Requerido", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        
+        String m = atual != null ? atual.getMarca() : "";
         String p = atual != null ? String.valueOf(atual.getPreco()) : "";
         String w = atual != null ? String.valueOf(atual.getConsumoWatts()) : "";
         String s = atual != null ? atual.getSocket() : "";
@@ -99,7 +125,7 @@ public class InterfaceUsuario {
         boolean ecc = atual != null ? atual.isSuporteECC() : false;
 
         String marca = lerString("Marca (ex: AMD, Intel):", m);
-        String modelo = lerString("Modelo (ex: Ryzen 5 8600G):", mod);
+        // O "modelo" já foi capturado, pulamos essa pergunta
         double preco = lerDouble("Preço (R$):", p);
         int consumo = lerInt("Consumo Estimado (Watts):", w);
         String socket = lerString("Socket (ex: AM5, LGA1700):", s);
@@ -114,13 +140,38 @@ public class InterfaceUsuario {
     
     /**
      * @brief Abre o formulário guiado para criação ou edição de uma Placa-Mãe.
+     * Busca dados base no CatalogoPlacaMae, impedindo gargalos de digitação manual
+     * e mantendo a segurança na edição com o Edit-Lock.
      * @param atual Objeto existente para autopreenchimento, ou null.
      * @return Nova instância de PlacaMae configurada.
      * @throws CanceladoException Se o fluxo for interrompido.
      */
     public static PlacaMae capturarPlacaMae(PlacaMae atual) throws CanceladoException {
+        String mod = atual != null ? atual.getModelo() : "";
+        String modelo = lerString("Digite o Modelo da Placa-Mãe (ex: B650M-AYW WIFI):", mod);
+
+        boolean isEditandoMesmoModelo = (atual != null && atual.getModelo().equalsIgnoreCase(modelo));
+
+        if (!isEditandoMesmoModelo) {
+            CatalogoPlacaMae catalogo = new CatalogoPlacaMae();
+            PlacaMae placaCatalogo = catalogo.buscarPorModelo(modelo, 1);
+
+            if (placaCatalogo != null) {
+                JOptionPane.showMessageDialog(null, 
+                    "✅ Placa-Mãe '" + placaCatalogo.getModelo() + "' encontrada no catálogo!\n"
+                  + "Limites de expansão e dados do chipset preenchidos automaticamente.", 
+                    "Catálogo Localizado", JOptionPane.INFORMATION_MESSAGE);
+                
+                return placaCatalogo;
+            } else {
+                JOptionPane.showMessageDialog(null, 
+                    "Modelo não encontrado no banco de dados pré-escrito.\n"
+                  + "Por favor, insira as demais especificações da peça manualmente.", 
+                    "Cadastro Manual Requerido", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        
         String marca = lerString("Marca da Placa-Mãe:", atual != null ? atual.getMarca() : "");
-        String modelo = lerString("Modelo (ex: B650M-AYW):", atual != null ? atual.getModelo() : "");
         double preco = lerDouble("Preço (R$):", atual != null ? String.valueOf(atual.getPreco()) : "");
         int consumo = lerInt("Consumo Próprio (Watts):", atual != null ? String.valueOf(atual.getConsumoWatts()) : "");
         String chipset = lerString("Chipset (ex: B650):", atual != null ? atual.getChipset() : "");
@@ -135,13 +186,33 @@ public class InterfaceUsuario {
     
     /**
      * @brief Abre o formulário guiado para criação ou adição de Memória RAM.
-     * @param atual Objeto existente para autopreenchimento (útil para adicionar pentes idênticos).
+     * Busca dados no catálogo para preenchimento rápido (Fast-path).
+     * @param atual Objeto existente para autopreenchimento.
      * @return Nova instância de MemoriaRam configurada.
      * @throws CanceladoException Se o fluxo for interrompido.
      */
     public static MemoriaRam capturarMemoria(MemoriaRam atual) throws CanceladoException {
+        String mod = atual != null ? atual.getModelo() : "";
+        String modelo = lerString("Digite o Modelo da Memória RAM:", mod);
+        
+        boolean isEditandoMesmoModelo = (atual != null && atual.getModelo().equalsIgnoreCase(modelo));
+
+        if (!isEditandoMesmoModelo) {
+            CatalogoMemoria catalogo = new CatalogoMemoria();
+            MemoriaRam memoriaCatalogo = catalogo.buscarPorModelo(modelo, 1);
+
+            if (memoriaCatalogo != null) {
+                JOptionPane.showMessageDialog(null, 
+                    "✅ Memória RAM '" + memoriaCatalogo.getModelo() + "' encontrada no catálogo!\n"
+                  + "Frequência e capacidade preenchidas automaticamente.", 
+                    "Catálogo Localizado", JOptionPane.INFORMATION_MESSAGE);
+                return memoriaCatalogo;
+            } else {
+                JOptionPane.showMessageDialog(null, "Modelo não encontrado no banco de dados. Insira os dados manualmente.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        
         String marca = lerString("Marca da Memória RAM:", atual != null ? atual.getMarca() : "");
-        String modelo = lerString("Modelo:", atual != null ? atual.getModelo() : "");
         double preco = lerDouble("Preço (R$):", atual != null ? String.valueOf(atual.getPreco()) : "");
         int consumo = lerInt("Consumo (Watts):", atual != null ? String.valueOf(atual.getConsumoWatts()) : "");
         String tipoRam = lerString("Tipo da Memória (ex: DDR5):", atual != null ? atual.getTipoRam() : "");
@@ -154,13 +225,33 @@ public class InterfaceUsuario {
     
     /**
      * @brief Abre o formulário guiado para criação ou adição de Armazenamento.
+     * Busca dados no catálogo para preenchimento rápido (Fast-path).
      * @param atual Objeto existente para autopreenchimento.
      * @return Nova instância de Armazenamento configurada.
      * @throws CanceladoException Se o fluxo for interrompido.
      */
     public static Armazenamento capturarArmazenamento(Armazenamento atual) throws CanceladoException {
+        String mod = atual != null ? atual.getModelo() : "";
+        String modelo = lerString("Digite o Modelo do Armazenamento:", mod);
+        
+        boolean isEditandoMesmoModelo = (atual != null && atual.getModelo().equalsIgnoreCase(modelo));
+
+        if (!isEditandoMesmoModelo) {
+            CatalogoArmazenamento catalogo = new CatalogoArmazenamento();
+            Armazenamento armCatalogo = catalogo.buscarPorModelo(modelo, 1);
+
+            if (armCatalogo != null) {
+                JOptionPane.showMessageDialog(null, 
+                    "✅ Armazenamento '" + armCatalogo.getModelo() + "' encontrado no catálogo!\n"
+                  + "Velocidade de leitura e tipo preenchidos automaticamente.", 
+                    "Catálogo Localizado", JOptionPane.INFORMATION_MESSAGE);
+                return armCatalogo;
+            } else {
+                JOptionPane.showMessageDialog(null, "Modelo não encontrado no banco de dados. Insira os dados manualmente.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        
         String marca = lerString("Marca do Armazenamento:", atual != null ? atual.getMarca() : "");
-        String modelo = lerString("Modelo:", atual != null ? atual.getModelo() : "");
         double preco = lerDouble("Preço (R$):", atual != null ? String.valueOf(atual.getPreco()) : "");
         int consumo = lerInt("Consumo (Watts):", atual != null ? String.valueOf(atual.getConsumoWatts()) : "");
         String tipo = lerString("Tipo (ex: NVMe M.2):", atual != null ? atual.getTipo() : "");
@@ -173,13 +264,33 @@ public class InterfaceUsuario {
     
     /**
      * @brief Abre o formulário guiado para criação ou edição de uma Fonte de Alimentação.
+     * Busca dados no catálogo para preenchimento rápido (Fast-path).
      * @param atual Objeto existente para autopreenchimento.
      * @return Nova instância de Fonte configurada.
      * @throws CanceladoException Se o fluxo for interrompido.
      */
     public static Fonte capturarFonte(Fonte atual) throws CanceladoException {
+        String mod = atual != null ? atual.getModelo() : "";
+        String modelo = lerString("Digite o Modelo da Fonte:", mod);
+        
+        boolean isEditandoMesmoModelo = (atual != null && atual.getModelo().equalsIgnoreCase(modelo));
+
+        if (!isEditandoMesmoModelo) {
+            CatalogoFonte catalogo = new CatalogoFonte();
+            Fonte fonteCatalogo = catalogo.buscarPorModelo(modelo, 1);
+
+            if (fonteCatalogo != null) {
+                JOptionPane.showMessageDialog(null, 
+                    "✅ Fonte '" + fonteCatalogo.getModelo() + "' encontrada no catálogo!\n"
+                  + "Potência máxima e certificação preenchidas automaticamente.", 
+                    "Catálogo Localizado", JOptionPane.INFORMATION_MESSAGE);
+                return fonteCatalogo;
+            } else {
+                JOptionPane.showMessageDialog(null, "Modelo não encontrado no banco de dados. Insira os dados manualmente.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        
         String marca = lerString("Marca da Fonte:", atual != null ? atual.getMarca() : "");
-        String modelo = lerString("Modelo:", atual != null ? atual.getModelo() : "");
         double preco = lerDouble("Preço (R$):", atual != null ? String.valueOf(atual.getPreco()) : "");
         int potencia = lerInt("Potência Total (Watts):", atual != null ? String.valueOf(atual.getPotenciaWatts()) : "");
         String certificado = lerString("Certificação (ex: 80 Plus Bronze):", atual != null ? atual.getCertificado80Plus() : "");

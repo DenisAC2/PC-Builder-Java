@@ -7,6 +7,8 @@ package pcbuilder;
  * @author Denis
  */
 public class PlacaMae extends Componente {
+    /** @brief ID de versão para garantir a estabilidade da serialização (arquivos .dat) */
+    private static final long serialVersionUID = 1L;
     private final String chipset;
     private final String socketSuportado;
     private final String tipoRamSuportado;

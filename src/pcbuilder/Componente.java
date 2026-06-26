@@ -1,12 +1,16 @@
 package pcbuilder;
 
+import java.io.Serializable;
+
 /**
  * @brief Classe abstrata base para todos os hardwares do sistema.
  * Centraliza os atributos comuns como marca, modelo, preço e consumo elétrico,
  * garantindo o reaproveitamento de código através da Herança.
+ * Implementa Serializable para permitir a persistência em disco de todas as subclasses.
  * @author Denis
  */
-public abstract class Componente {
+public abstract class Componente implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String marca;
     private String modelo;
     private double preco;

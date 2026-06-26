@@ -1,4 +1,5 @@
 package pcbuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -11,16 +12,38 @@ import javax.swing.JOptionPane;
  */
 public class PCBuilder {
     
-    /** @brief Lista global em memória que armazena os Setups cadastrados na sessão atual. */
+    /** @brief Lista global em memória que armazena os Setups cadastrados. */
     private static List<Setup> setupsCadastrados = new ArrayList<>();
     
     /**
      * @brief Método principal de execução.
-     * Inicializa a interface inicial (Menu Principal), permitindo ao usuário criar 
-     * uma nova máquina do zero ou selecionar uma máquina já existente para modificação.
+     * Inicializa a interface carregando dados do disco e gerencia o loop do menu principal.
+     * Registra um Shutdown Hook para garantir a persistência segura no encerramento.
      * @param args Argumentos de linha de comando padrão do Java.
      */
     public static void main(String[] args) {
+        
+        //Tenta restaurar a sessão anterior assim que o programa abre
+        try {
+            setupsCadastrados = GerenciadorDados.carregarSetups();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, 
+                    "Não foi possível carregar os setups salvos anteriormente.\nIniciando base vazia.\nMotivo: " + e.getMessage(),
+                    "Aviso de Inicialização", JOptionPane.WARNING_MESSAGE);
+            setupsCadastrados = new ArrayList<>();
+        }
+
+        //Garante que os dados sejam salvos mesmo se o programa der crash ou for fechado à força
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                GerenciadorDados.salvarSetups(setupsCadastrados);
+                // Nota: Não usamos JOptionPane aqui pois a thread gráfica pode já estar morta
+                System.out.println("[Sistema] Dados persistidos com sucesso no encerramento.");
+            } catch (Exception e) {
+                System.err.println("[Erro Crítico] Falha ao salvar no encerramento: " + e.getMessage());
+            }
+        }));
+
         boolean sistemaAberto = true;
         String[] menuPrincipal = {
             "1. Criar Novo Setup", 
@@ -59,8 +82,24 @@ public class PCBuilder {
                 }
             }
         }
+        
+        //Evita processos Zumbis
+        System.exit(0);
     }
     
+    /**
+     * @brief Método utilitário interno para encapsular o salvamento de dados.
+     * Evita duplicação de código e captura exceções de I/O de maneira gráfica para o usuário.
+     */
+    private static void salvarDadosSessao() {
+        try {
+            GerenciadorDados.salvarSetups(setupsCadastrados);
+        } catch (java.io.IOException e) {
+            JOptionPane.showMessageDialog(null, 
+                    "Erro crítico ao persistir os dados no disco:\n" + e.getMessage(), 
+                    "Erro de Gravação", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * @brief Menu dedicado à edição de um Setup específico.
      * Renderiza as opções de adição e modificação de hardwares (Processador, Placa-Mãe, 
@@ -79,7 +118,8 @@ public class PCBuilder {
             "6. Limpar todos os Armazenamentos",
             "7. Definir/Editar Fonte",
             "8. Verificar Compatibilidade e Resumo",
-            "9. Voltar ao Menu Principal"
+            "9. Exportar Relatório em TXT",
+            "10. Voltar ao Menu Principal" 
         };
 
         while (editando) {
@@ -87,13 +127,16 @@ public class PCBuilder {
                     "Editando: " + setup.getNomeSetup() + "\nO que deseja fazer?",
                     "Editor de Setup", JOptionPane.PLAIN_MESSAGE, null, menuEdicao, menuEdicao[0]);
 
-            if (selecao == null || selecao.startsWith("9")) {
+            if (selecao == null || selecao.startsWith("10")) {
                 editando = false;
                 break;
             }
 
             try {
-                switch (selecao.substring(0, 1)) {
+                // Separa a string pelo "." e pega o número exato da opção ("10. Voltar" -> "10")
+                String opcao = selecao.split("\\.")[0];
+                
+                switch (opcao) {
                     case "1":
                         setup.setProcessador(InterfaceUsuario.capturarProcessador(setup.getProcessador()));
                         JOptionPane.showMessageDialog(null, "Processador atualizado!");
@@ -133,9 +176,23 @@ public class PCBuilder {
                         }
                         JOptionPane.showMessageDialog(null, setup.exibirResumo(), "Resumo do Setup", JOptionPane.INFORMATION_MESSAGE);
                         break;
+                    case "9":
+                        try {
+                            // Chama a classe I/O que criamos
+                            String caminhoSalvo = ExportadorArquivo.exportarRelatorioTxt(setup);
+                            JOptionPane.showMessageDialog(null, 
+                                "Relatório salvo com sucesso!\nArquivo: " + caminhoSalvo, 
+                                "Exportação Concluída", 
+                                JOptionPane.INFORMATION_MESSAGE);
+                        } catch (java.io.IOException e) {
+                            JOptionPane.showMessageDialog(null, 
+                                "Erro ao gravar o arquivo de texto:\n" + e.getMessage(), 
+                                "Erro de I/O", 
+                                JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
                 }
             } catch (CanceladoException ex){}
-                // Exceção de controle tratada silenciosamente. Apenas cancela o formulário atual e volta ao menu de edição.
         }
     }
 }

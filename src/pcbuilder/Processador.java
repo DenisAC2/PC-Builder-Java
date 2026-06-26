@@ -7,6 +7,8 @@ package pcbuilder;
  * @author Denis
  */
 public class Processador extends Componente {
+    /** @brief ID de versão para garantir a estabilidade da serialização (arquivos .dat) */
+    private static final long serialVersionUID = 1L;
     private final String socket;
     private final int quantidadeCores;
     private final int quantidadeThreads;

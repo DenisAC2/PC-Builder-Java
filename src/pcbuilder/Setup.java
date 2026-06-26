@@ -1,4 +1,6 @@
 package pcbuilder;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,8 @@ import java.util.List;
  * compatibilidade entre as peças escolhidas.
  * @author Denis
  */
-public class Setup {
+public class Setup implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String nomeSetup;
     private Processador processador;
     private PlacaMae placaMae;
