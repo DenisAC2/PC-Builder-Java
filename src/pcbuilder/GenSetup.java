@@ -26,4 +26,8 @@ public class GenSetup {
     public static Fonte criarFonte(String marca, String modelo, double preco, int potencia, String certificado, boolean modular) {
         return new Fonte(potencia, certificado, modular, marca, modelo, preco, 0); 
     }
+    
+    public static PlacaDeVideo criarPlacaDeVideo(String marca, String modelo, double preco, int consumo, int vram, String tipoVram, String pcie) {
+    return new PlacaDeVideo(vram, tipoVram, pcie, marca, modelo, preco, consumo);
+}
 }

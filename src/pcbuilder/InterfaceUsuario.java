@@ -29,30 +29,38 @@ public class InterfaceUsuario {
     
     /**
      * @brief Lê e valida uma entrada de número inteiro.
-     * Captura exceptions de formatação (NumberFormatException) e avisa o usuário caso digite letras.
+     * Captura exceptions de formatação (NumberFormatException) e avisa o utilizador caso introduza letras,
+     * impedindo ativamente também a inserção de valores negativos.
      * @param msg A mensagem de instrução.
      * @param padrao Valor numérico padrão para preenchimento.
-     * @return O número inteiro formatado validado.
-     * @throws CanceladoException Se o usuário cancelar a operação.
+     * @return O número inteiro formatado, validado e não negativo.
+     * @throws CanceladoException Se o utilizador cancelar a operação.
      */
     private static int lerInt(String msg, String padrao) throws CanceladoException {
         while (true) {
             Object res = JOptionPane.showInputDialog(null, msg, "Entrada de Dados", JOptionPane.QUESTION_MESSAGE, null, null, padrao != null ? padrao : "");
             if (res == null) throw new CanceladoException();
             try {
-                return Integer.parseInt(res.toString().trim());
+                int valor = Integer.parseInt(res.toString().trim());
+                if (valor < 0) {
+                    JOptionPane.showMessageDialog(null, "O valor introduzido não pode ser negativo.", "Erro de Entrada", JOptionPane.ERROR_MESSAGE);
+                    continue;
+                }
+                
+                return valor;
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Valor inválido. Digite apenas números inteiros.", "Erro de Entrada", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Valor inválido. Certifique-se de introduzir apenas números inteiros.", "Erro de Entrada", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
     
     /**
      * @brief Lê e valida uma entrada de número decimal (double).
-     * Substitui automaticamente vírgulas por pontos para evitar falhas de formatação locais.
+     * Substitui automaticamente vírgulas por pontos para evitar falhas de formatação locais,
+     * e impede ativamente a inserção de valores negativos.
      * @param msg A mensagem de instrução.
      * @param padrao Valor decimal padrão para exibição.
-     * @return O número decimal validado.
+     * @return O número decimal validado e não negativo.
      * @throws CanceladoException Se o usuário cancelar a operação.
      */
     private static double lerDouble(String msg, String padrao) throws CanceladoException {
@@ -60,9 +68,15 @@ public class InterfaceUsuario {
             Object res = JOptionPane.showInputDialog(null, msg, "Entrada de Dados", JOptionPane.QUESTION_MESSAGE, null, null, padrao != null ? padrao : "");
             if (res == null) throw new CanceladoException();
             try {
-                return Double.parseDouble(res.toString().trim().replace(",", "."));
+                double valor = Double.parseDouble(res.toString().trim().replace(",", "."));
+                if (valor < 0) {
+                    JOptionPane.showMessageDialog(null, "O valor introduzido não pode ser negativo.", "Erro de Entrada", JOptionPane.ERROR_MESSAGE);
+                    continue; 
+                }
+                
+                return valor;
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Valor numérico inválido.", "Erro de Entrada", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Valor numérico inválido. Certifique-se de introduzir apenas números.", "Erro de Entrada", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -125,7 +139,6 @@ public class InterfaceUsuario {
         boolean ecc = atual != null ? atual.isSuporteECC() : false;
 
         String marca = lerString("Marca (ex: AMD, Intel):", m);
-        // O "modelo" já foi capturado, pulamos essa pergunta
         double preco = lerDouble("Preço (R$):", p);
         int consumo = lerInt("Consumo Estimado (Watts):", w);
         String socket = lerString("Socket (ex: AM5, LGA1700):", s);
@@ -186,8 +199,8 @@ public class InterfaceUsuario {
     
     /**
      * @brief Abre o formulário guiado para criação ou adição de Memória RAM.
-     * Busca dados no catálogo para preenchimento rápido (Fast-path).
-     * @param atual Objeto existente para autopreenchimento.
+     * Procura prioritariamente no catálogo para permitir adições rápidas e consecutivas.
+     * @param atual Objeto existente (último adicionado) para sugerir valores por defeito.
      * @return Nova instância de MemoriaRam configurada.
      * @throws CanceladoException Se o fluxo for interrompido.
      */
@@ -195,38 +208,37 @@ public class InterfaceUsuario {
         String mod = atual != null ? atual.getModelo() : "";
         String modelo = lerString("Digite o Modelo da Memória RAM:", mod);
         
-        boolean isEditandoMesmoModelo = (atual != null && atual.getModelo().equalsIgnoreCase(modelo));
+        CatalogoMemoria catalogo = new CatalogoMemoria();
+        MemoriaRam memoriaCatalogo = catalogo.buscarPorModelo(modelo, 1);
 
-        if (!isEditandoMesmoModelo) {
-            CatalogoMemoria catalogo = new CatalogoMemoria();
-            MemoriaRam memoriaCatalogo = catalogo.buscarPorModelo(modelo, 1);
-
-            if (memoriaCatalogo != null) {
-                JOptionPane.showMessageDialog(null, 
-                    "✅ Memória RAM '" + memoriaCatalogo.getModelo() + "' encontrada no catálogo!\n"
-                  + "Frequência e capacidade preenchidas automaticamente.", 
-                    "Catálogo Localizado", JOptionPane.INFORMATION_MESSAGE);
-                return memoriaCatalogo;
-            } else {
-                JOptionPane.showMessageDialog(null, "Modelo não encontrado no banco de dados. Insira os dados manualmente.", "Aviso", JOptionPane.WARNING_MESSAGE);
-            }
+        if (memoriaCatalogo != null) {
+            JOptionPane.showMessageDialog(null, 
+                "✅ Memória RAM '" + memoriaCatalogo.getModelo() + "' encontrada no catálogo!\n"
+              + "Frequência e capacidade preenchidas automaticamente.", 
+                "Catálogo Localizado", JOptionPane.INFORMATION_MESSAGE);
+            return memoriaCatalogo;
+        } else {
+            // Mensagem opcional de aviso removida ou mantida caso queiras alertar a ausência
+            System.out.println("[Aviso] Modelo não encontrado no catálogo. Seguindo para fluxo manual.");
         }
         
-        String marca = lerString("Marca da Memória RAM:", atual != null ? atual.getMarca() : "");
-        double preco = lerDouble("Preço (R$):", atual != null ? String.valueOf(atual.getPreco()) : "");
-        int consumo = lerInt("Consumo (Watts):", atual != null ? String.valueOf(atual.getConsumoWatts()) : "");
-        String tipoRam = lerString("Tipo da Memória (ex: DDR5):", atual != null ? atual.getTipoRam() : "");
-        int capacidade = lerInt("Capacidade (GB):", atual != null ? String.valueOf(atual.getCapacidadeGB()) : "");
-        int freq = lerInt("Frequência (MHz):", atual != null ? String.valueOf(atual.getFrequenciaMhz()) : "");
-        boolean ecc = lerBoolean("Possui tecnologia ECC?", atual != null ? atual.isSuporteECC() : false);
+        boolean usarDadosAtuais = (atual != null && atual.getModelo().equalsIgnoreCase(modelo));
+        
+        String marca = lerString("Marca da Memória RAM:", usarDadosAtuais ? atual.getMarca() : "");
+        double preco = lerDouble("Preço (R$):", usarDadosAtuais ? String.valueOf(atual.getPreco()) : "");
+        int consumo = lerInt("Consumo (Watts):", usarDadosAtuais ? String.valueOf(atual.getConsumoWatts()) : "");
+        String tipoRam = lerString("Tipo da Memória (ex: DDR5):", usarDadosAtuais ? atual.getTipoRam() : "");
+        int capacidade = lerInt("Capacidade (GB):", usarDadosAtuais ? String.valueOf(atual.getCapacidadeGB()) : "");
+        int freq = lerInt("Frequência (MHz):", usarDadosAtuais ? String.valueOf(atual.getFrequenciaMhz()) : "");
+        boolean ecc = lerBoolean("Possui tecnologia ECC?", usarDadosAtuais ? atual.isSuporteECC() : false);
 
         return GenSetup.criarMemoria(marca, modelo, preco, consumo, tipoRam, capacidade, freq, ecc);
     }
     
     /**
      * @brief Abre o formulário guiado para criação ou adição de Armazenamento.
-     * Busca dados no catálogo para preenchimento rápido (Fast-path).
-     * @param atual Objeto existente para autopreenchimento.
+     * Procura prioritariamente no catálogo para agilizar a montagem de arranjos com múltiplos discos.
+     * @param atual Objeto existente (último adicionado) para sugerir valores por defeito.
      * @return Nova instância de Armazenamento configurada.
      * @throws CanceladoException Se o fluxo for interrompido.
      */
@@ -234,30 +246,26 @@ public class InterfaceUsuario {
         String mod = atual != null ? atual.getModelo() : "";
         String modelo = lerString("Digite o Modelo do Armazenamento:", mod);
         
-        boolean isEditandoMesmoModelo = (atual != null && atual.getModelo().equalsIgnoreCase(modelo));
+        CatalogoArmazenamento catalogo = new CatalogoArmazenamento();
+        Armazenamento armCatalogo = catalogo.buscarPorModelo(modelo, 1);
 
-        if (!isEditandoMesmoModelo) {
-            CatalogoArmazenamento catalogo = new CatalogoArmazenamento();
-            Armazenamento armCatalogo = catalogo.buscarPorModelo(modelo, 1);
-
-            if (armCatalogo != null) {
-                JOptionPane.showMessageDialog(null, 
-                    "✅ Armazenamento '" + armCatalogo.getModelo() + "' encontrado no catálogo!\n"
-                  + "Velocidade de leitura e tipo preenchidos automaticamente.", 
-                    "Catálogo Localizado", JOptionPane.INFORMATION_MESSAGE);
-                return armCatalogo;
-            } else {
-                JOptionPane.showMessageDialog(null, "Modelo não encontrado no banco de dados. Insira os dados manualmente.", "Aviso", JOptionPane.WARNING_MESSAGE);
-            }
+        if (armCatalogo != null) {
+            JOptionPane.showMessageDialog(null, 
+                "✅ Armazenamento '" + armCatalogo.getModelo() + "' encontrado no catálogo!\n"
+              + "Velocidade de leitura e tipo preenchidos automaticamente.", 
+                "Catálogo Localizado", JOptionPane.INFORMATION_MESSAGE);
+            return armCatalogo;
         }
         
-        String marca = lerString("Marca do Armazenamento:", atual != null ? atual.getMarca() : "");
-        double preco = lerDouble("Preço (R$):", atual != null ? String.valueOf(atual.getPreco()) : "");
-        int consumo = lerInt("Consumo (Watts):", atual != null ? String.valueOf(atual.getConsumoWatts()) : "");
-        String tipo = lerString("Tipo (ex: NVMe M.2):", atual != null ? atual.getTipo() : "");
-        int capacidade = lerInt("Capacidade (GB):", atual != null ? String.valueOf(atual.getCapacidadeGB()) : "");
-        int velocidade = lerInt("Velocidade (MB/s):", atual != null ? String.valueOf(atual.getVelocidade()) : "");
-        String pcie = lerString("Interface de Conexão (ex: PCIe 4.0):", atual != null ? atual.getConexaoPCIE() : "");
+        boolean usarDadosAtuais = (atual != null && atual.getModelo().equalsIgnoreCase(modelo));
+        
+        String marca = lerString("Marca do Armazenamento:", usarDadosAtuais ? atual.getMarca() : "");
+        double preco = lerDouble("Preço (R$):", usarDadosAtuais ? String.valueOf(atual.getPreco()) : "");
+        int consumo = lerInt("Consumo (Watts):", usarDadosAtuais ? String.valueOf(atual.getConsumoWatts()) : "");
+        String tipo = lerString("Tipo (ex: NVMe M.2):", usarDadosAtuais ? atual.getTipo() : "");
+        int capacidade = lerInt("Capacidade (GB):", usarDadosAtuais ? String.valueOf(atual.getCapacidadeGB()) : "");
+        int velocidade = lerInt("Velocidade (MB/s):", usarDadosAtuais ? String.valueOf(atual.getVelocidade()) : "");
+        String pcie = lerString("Interface de Conexão (ex: PCIe 4.0):", usarDadosAtuais ? atual.getConexaoPCIE() : "");
 
         return GenSetup.criarArmazenamento(marca, modelo, preco, consumo, tipo, capacidade, velocidade, pcie);
     }
@@ -297,5 +305,44 @@ public class InterfaceUsuario {
         boolean modular = lerBoolean("A fonte é Full Modular?", atual != null ? atual.isFullModular() : false);
 
         return GenSetup.criarFonte(marca, modelo, preco, potencia, certificado, modular);
+    }
+    
+    /**
+     * @brief Abre o formulário guiado para definição ou edição de uma Placa de Vídeo.
+     * Procura prioritariamente no catálogo para preenchimento rápido (Fast-path).
+     * @param atual Objeto existente para sugerir valores por defeito, ou null.
+     * @return Nova instância de PlacaDeVideo configurada.
+     * @throws CanceladoException Se o fluxo for interrompido pelo utilizador.
+     */
+    public static PlacaDeVideo capturarPlacaDeVideo(PlacaDeVideo atual) throws CanceladoException {
+        String mod = atual != null ? atual.getModelo() : "";
+        String modelo = lerString("Digite o Modelo da Placa de Vídeo (ex: RTX 4060 ou RX 7600):", mod);
+        
+        CatalogoPlacaDeVideo catalogo = new CatalogoPlacaDeVideo();
+        PlacaDeVideo gpuCatalogo = catalogo.buscarPorModelo(modelo, 1);
+
+        if (gpuCatalogo != null) {
+            JOptionPane.showMessageDialog(null, 
+                "✅ Placa de Vídeo '" + gpuCatalogo.getModelo() + "' encontrada no catálogo!\n"
+              + "VRAM, consumo e interface preenchidos automaticamente.", 
+                "Catálogo Localizado", JOptionPane.INFORMATION_MESSAGE);
+            return gpuCatalogo;
+        } else {
+            JOptionPane.showMessageDialog(null, 
+                "Modelo não encontrado no banco de dados pré-escrito.\n"
+              + "Por favor, insira as restantes especificações da peça manualmente.", 
+                "Registo Manual Requerido", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        boolean usarDadosAtuais = (atual != null && atual.getModelo().equalsIgnoreCase(modelo));
+
+        String marca = lerString("Marca da Placa de Vídeo (ex: NVIDIA, AMD, Intel):", usarDadosAtuais ? atual.getMarca() : "");
+        double preco = lerDouble("Preço (R$):", usarDadosAtuais ? String.valueOf(atual.getPreco()) : "");
+        int consumo = lerInt("Consumo Estimado (Watts):", usarDadosAtuais ? String.valueOf(atual.getConsumoWatts()) : "");
+        int vram = lerInt("Capacidade de VRAM (GB):", usarDadosAtuais ? String.valueOf(atual.getCapacidadeVramGB()) : "");
+        String tipoVram = lerString("Tipo de Memória VRAM (ex: GDDR6):", usarDadosAtuais ? atual.getTipoVram() : "");
+        String pcie = lerString("Interface de Conexão (ex: PCIe 4.0 x16):", usarDadosAtuais ? atual.getConexaoPCIE() : "");
+
+        return GenSetup.criarPlacaDeVideo(marca, modelo, preco, consumo, vram, tipoVram, pcie);
     }
 }

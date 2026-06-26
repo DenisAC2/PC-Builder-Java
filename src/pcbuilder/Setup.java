@@ -19,6 +19,7 @@ public class Setup implements Serializable {
     private Fonte fonte;
     private List<MemoriaRam> memorias;
     private List<Armazenamento> armazenamentos;
+    private PlacaDeVideo placaDeVideo;
     
     /**
      * @brief Inicializa um novo setup vazio, instanciando as listas de expansão.
@@ -49,6 +50,8 @@ public class Setup implements Serializable {
     public void adicionarArmazenamento(Armazenamento armazenamento) { this.armazenamentos.add(armazenamento); }
     public void limparArmazenamentos() { this.armazenamentos.clear(); }
 
+    public PlacaDeVideo getPlacaDeVideo() { return placaDeVideo; }
+    public void setPlacaDeVideo(PlacaDeVideo placaDeVideo) { this.placaDeVideo = placaDeVideo; }
     /**
      * @brief Calcula o custo total do sistema.
      * Varre todos os componentes instanciados e soma os seus preços individuais.
@@ -59,6 +62,7 @@ public class Setup implements Serializable {
         if (processador != null) total += processador.getPreco();
         if (placaMae != null) total += placaMae.getPreco();
         if (fonte != null) total += fonte.getPreco();
+        if (placaDeVideo != null) total += placaDeVideo.getPreco(); // Nova linha
         for (MemoriaRam ram : memorias) total += ram.getPreco();
         for (Armazenamento arm : armazenamentos) total += arm.getPreco();
         return total;
@@ -73,6 +77,7 @@ public class Setup implements Serializable {
         int watts = 0;
         if (processador != null) watts += processador.getConsumoWatts();
         if (placaMae != null) watts += placaMae.getConsumoWatts();
+        if (placaDeVideo != null) watts += placaDeVideo.getConsumoWatts(); // Nova linha (GPUs consomem bastante)
         for (MemoriaRam ram : memorias) watts += ram.getConsumoWatts();
         for (Armazenamento arm : armazenamentos) watts += arm.getConsumoWatts();
         return watts;
@@ -85,35 +90,40 @@ public class Setup implements Serializable {
      * @throws IncompatibilidadeException Se qualquer regra física ou lógica de montagem for violada.
      */
     public void verificarCompatibilidade() throws IncompatibilidadeException {
+        if (processador == null || placaMae == null || fonte == null || memorias.isEmpty() || armazenamentos.isEmpty()) {
+            throw new IncompatibilidadeException("Montagem Incompleta: O sistema não pode ser validado.\nFaltam componentes essenciais (Processador, Placa-Mãe, Fonte, Memória RAM ou Armazenamento).");
+        }
+
         List<String> erros = new ArrayList<>();
-
-        if (processador != null && placaMae != null) {
-            if (!processador.getSocket().equalsIgnoreCase(placaMae.getSocketSuportado())) {
-                erros.add("Incompatibilidade de Socket: Processador (" + processador.getSocket() + ") e Placa-Mãe (" + placaMae.getSocketSuportado() + ").");
+        
+        if (!processador.getSocket().equalsIgnoreCase(placaMae.getSocketSuportado())) {
+            erros.add("Incompatibilidade de Socket: Processador (" + processador.getSocket() + ") e Placa-Mãe (" + placaMae.getSocketSuportado() + ").");
+        }
+        
+        for (MemoriaRam ram : memorias) {
+            if (!ram.getTipoRam().equalsIgnoreCase(placaMae.getTipoRamSuportado())) {
+                erros.add("Incompatibilidade de RAM: " + ram.getModelo() + " é " + ram.getTipoRam() + ", mas a placa exige " + placaMae.getTipoRamSuportado() + ".");
             }
         }
-
-        if (placaMae != null) {
-            for (MemoriaRam ram : memorias) {
-                if (!ram.getTipoRam().equalsIgnoreCase(placaMae.getTipoRamSuportado())) {
-                    erros.add("Incompatibilidade de RAM: " + ram.getModelo() + " é " + ram.getTipoRam() + ", mas a placa exige " + placaMae.getTipoRamSuportado() + ".");
-                }
-            }
-            if (memorias.size() > placaMae.getSlotsRam()) {
-                erros.add("Limite de RAM excedido: A placa possui apenas " + placaMae.getSlotsRam() + " slots, mas você adicionou " + memorias.size() + " pentes.");
-            }
-            if (armazenamentos.size() > placaMae.getSlotsNvme()) {
-                 erros.add("Limite de Armazenamento excedido: A placa possui apenas " + placaMae.getSlotsNvme() + " slots NVMe.");
-            }
+        
+        if (memorias.size() > placaMae.getSlotsRam()) {
+            erros.add("Limite de RAM excedido: A placa possui apenas " + placaMae.getSlotsRam() + " slots, mas adicionou " + memorias.size() + " pentes.");
         }
-
-        if (fonte != null) {
-            int consumoEstimado = calcularConsumoTotal();
-            if (consumoEstimado > fonte.getPotenciaWatts()) {
-                erros.add("Falta de Energia: O sistema consome " + consumoEstimado + "W, mas a fonte fornece " + fonte.getPotenciaWatts() + "W.");
-            }
+        
+        if (armazenamentos.size() > placaMae.getSlotsNvme()) {
+             erros.add("Limite de Armazenamento excedido: A placa possui apenas " + placaMae.getSlotsNvme() + " slots NVMe.");
         }
-
+        
+        int consumoEstimado = calcularConsumoTotal();
+        if (consumoEstimado > fonte.getPotenciaWatts()) {
+            erros.add("Falta de Energia: O sistema consome " + consumoEstimado + "W, mas a fonte fornece apenas " + fonte.getPotenciaWatts() + "W.");
+        }
+        
+        if (placaDeVideo == null && processador != null && !processador.isPossuiVideoIntegrado()) {
+            erros.add("Ausência de Vídeo: O sistema não possui Placa de Vídeo dedicada e o Processador ("
+                    + processador.getModelo() + ") não possui vídeo integrado.");
+        }
+        
         if (!erros.isEmpty()) {
             throw new IncompatibilidadeException("Foram encontrados problemas na montagem:\n- " + String.join("\n- ", erros));
         }

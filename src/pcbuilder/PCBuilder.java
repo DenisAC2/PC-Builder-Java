@@ -22,8 +22,6 @@ public class PCBuilder {
      * @param args Argumentos de linha de comando padrão do Java.
      */
     public static void main(String[] args) {
-        
-        //Tenta restaurar a sessão anterior assim que o programa abre
         try {
             setupsCadastrados = GerenciadorDados.carregarSetups();
         } catch (Exception e) {
@@ -82,8 +80,6 @@ public class PCBuilder {
                 }
             }
         }
-        
-        //Evita processos Zumbis
         System.exit(0);
     }
     
@@ -117,9 +113,10 @@ public class PCBuilder {
             "5. Adicionar Armazenamento",
             "6. Limpar todos os Armazenamentos",
             "7. Definir/Editar Fonte",
-            "8. Verificar Compatibilidade e Resumo",
-            "9. Exportar Relatório em TXT",
-            "10. Voltar ao Menu Principal" 
+            "8. Definir/Editar Placa de Vídeo",
+            "9. Verificar Compatibilidade e Resumo",
+            "10. Exportar Relatório em TXT",
+            "11. Voltar ao Menu Principal" 
         };
 
         while (editando) {
@@ -133,7 +130,6 @@ public class PCBuilder {
             }
 
             try {
-                // Separa a string pelo "." e pega o número exato da opção ("10. Voltar" -> "10")
                 String opcao = selecao.split("\\.")[0];
                 
                 switch (opcao) {
@@ -168,6 +164,10 @@ public class PCBuilder {
                         JOptionPane.showMessageDialog(null, "Fonte atualizada!");
                         break;
                     case "8":
+                        setup.setPlacaDeVideo(InterfaceUsuario.capturarPlacaDeVideo(setup.getPlacaDeVideo()));
+                        JOptionPane.showMessageDialog(null, "Placa de Vídeo atualizada com sucesso!");
+                        break;
+                    case "9":
                         try {
                             setup.verificarCompatibilidade();
                             JOptionPane.showMessageDialog(null, "SUCESSO: Peças 100% compatíveis!", "Validação", JOptionPane.INFORMATION_MESSAGE);
@@ -176,9 +176,8 @@ public class PCBuilder {
                         }
                         JOptionPane.showMessageDialog(null, setup.exibirResumo(), "Resumo do Setup", JOptionPane.INFORMATION_MESSAGE);
                         break;
-                    case "9":
+                    case "10":
                         try {
-                            // Chama a classe I/O que criamos
                             String caminhoSalvo = ExportadorArquivo.exportarRelatorioTxt(setup);
                             JOptionPane.showMessageDialog(null, 
                                 "Relatório salvo com sucesso!\nArquivo: " + caminhoSalvo, 
